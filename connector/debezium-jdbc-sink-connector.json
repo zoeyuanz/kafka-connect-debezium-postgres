@@ -1,19 +1,16 @@
 {
-    "name": "debezium-postgres-source-connector",
+    "name": "jdbc-connector",
     "config": {
-        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
         "tasks.max": "1",
-        "database.hostname": "postgres",
-        "database.port": "5432",
-        "database.user": "postgres",
-        "database.password": "postgres",
-        "database.dbname" : "postgres",
-        "table.include.list": "debezium_postgres_demo.outbox",
-        "transforms": "outbox",
-        "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
-        "transforms.outbox.route.by.field": "destination",
-        "transforms.outbox.table.field.event.key": "id",
-        "transforms.outbox.table.field.event.payload": "payload",
-        "topic.prefix": "demo"
+        "connection.url": "jdbc:postgresql://localhost:5433/postgres?currentSchema=debezium_postgres_demo",
+        "connection.username": "postgres",  
+        "connection.password": "postgres",  
+        "insert.mode": "upsert",
+        "delete.enabled": "true", 
+        "primary.key.mode": "record_key",  
+        "schema.evolution": "basic",  
+        "database.time_zone": "UTC",  
+        "topics": "outbox.event.item" 
     }
 }
