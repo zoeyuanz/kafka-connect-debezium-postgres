@@ -31,11 +31,14 @@ services:
 
     debezium:
         image: quay.io/debezium/connect:2.2
+        volumes:
+            - /Users/yuanziqing/courses/kubetrace_test/kafka-connect-debezium-postgres/otel:/otel/
         environment:
             BOOTSTRAP_SERVERS: kafka:29092
             GROUP_ID: 1
             CONFIG_STORAGE_TOPIC: connect_configs
             OFFSET_STORAGE_TOPIC: connect_offsets
+            KAFKA_OPTS: "-javaagent:/otel/otel-agent.jar -Dotel.resource.attributes=service.name=debezium-connector -Dotel.traces.exporter=zipkin -Dotel.exporter.zipkin.endpoint=http://zipkin:9411/api/v2/spans"
         depends_on: [ kafka ]
         ports:
             - "8083:8083"
@@ -49,9 +52,14 @@ services:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
         ports:
-            - '5432:5432'
+            - '5433:5432'
         volumes:
             - postgres:/var/lib/postgresql/data
+    zipkin:
+        image: openzipkin/zipkin
+        container_name: zipkin
+        ports:
+        - "9411:9411"
 
 volumes:
     postgres: {}
