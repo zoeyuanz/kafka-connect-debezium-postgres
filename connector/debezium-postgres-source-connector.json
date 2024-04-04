@@ -1,5 +1,5 @@
 {
-    "name": "debezium-postgres-source-connector",
+    "name": "debezium-postgres-source-connector-CDC",
     "config": {
         "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
         "tasks.max": "1",
@@ -14,6 +14,8 @@
         "transforms.outbox.route.by.field": "destination",
         "transforms.outbox.table.field.event.key": "id",
         "transforms.outbox.table.field.event.payload": "payload",
+        "transforms.outbox.table.expand.json.payload": "true",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
         "topic.prefix": "demo"
     }
 }
