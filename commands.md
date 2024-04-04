@@ -1,1 +1,0 @@
-java -javaagent:otel/otel-agent.jar -Dotel.resource.attributes=service.name=debezium-connector -Dotel.traces.exporter=zipkin -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.exporter.zipkin.endpoint=http://localhost:9411/api/v2/spans -jar target/kafka-connect-debezium-postgres-demo-1.0.0.jar
